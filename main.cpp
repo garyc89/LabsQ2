@@ -1,16 +1,18 @@
 #include "mbed.h"
 
-Serial pc(USBTX, USBRX);  
+Serial pc(USBTX, USBRX); 
 
-void fibonacci_loop(int n) {
-    int a = 0, b = 1, nextTerm;
+int fibonacci_recursive(int n) {
+    if (n <= 1)
+        return n;
+    else
+        return fibonacci_recursive(n-1) + fibonacci_recursive(n-2);
+}
 
-    pc.printf("Fibonacci Series using loops: ");
-    for (int i = 1; i <= n; ++i) {
-        pc.printf("%d, ", a);
-        nextTerm = a + b;
-        a = b;
-        b = nextTerm;
+void printFibonacci(int n) {
+    pc.printf("Fibonacci Series using recursion: ");
+    for (int i = 0; i < n; i++) {
+        pc.printf("%d, ", fibonacci_recursive(i));
     }
     pc.printf("\r\n");
 }
@@ -18,7 +20,7 @@ void fibonacci_loop(int n) {
 int main() {
     pc.baud(9600);  
     int n = 10;     
-    fibonacci_loop(n);
+    printFibonacci(n);
     while (1) {
         // Keep the main loop running
     }
